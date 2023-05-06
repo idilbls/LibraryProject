@@ -1,7 +1,12 @@
-﻿using LibraryProject.Models;
+﻿using Azure;
+using LibraryProject.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace LibraryProject.Controllers
 {
@@ -11,22 +16,28 @@ namespace LibraryProject.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
-        public UserController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        private readonly IConfiguration _configuration;
+        public UserController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
 
         [HttpPost("add")]
         public async Task<User> Register([FromBody]User user)
         {
+            var userExists = await _userManager.FindByNameAsync(user.UserName);
+            if (userExists != null)
+                throw new ApplicationException("User already exists!");
+
             if (!ModelState.IsValid)
             {
                 throw new ApplicationException("Model State is not valid!");
             }
 
             var result = await _userManager.CreateAsync(
-                new IdentityUser() { UserName = user.UserName, Email = user.Email },
+                new IdentityUser() { UserName = user.UserName, Email = user.Email, SecurityStamp= Guid.NewGuid().ToString() },
                 user.Password);
 
             if (!result.Succeeded)
@@ -56,21 +67,28 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<User> Login([FromBody] User user)
+        public async Task<LoginResponseModel> Login([FromBody] LoginModel user)
         {
-            var result = new User();
-            var currentUser = await _userManager.FindByNameAsync(user.UserName);
+            var result = new LoginResponseModel();
+            var currentUser = await _userManager.FindByNameAsync(user.Username);
 
             if (currentUser != null && await _userManager.CheckPasswordAsync(currentUser, user.Password))
             {
+                var authClaims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, user.Username),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                };
+                var token = GetToken(authClaims);
+
                 var signInResult = await _signInManager.PasswordSignInAsync(currentUser, user.Password, false, false);
 
                 if (signInResult.Succeeded)
                 {
-                    result =  new User
+                    result =  new LoginResponseModel
                     {
-                        UserName = currentUser.UserName,
-                        Email = currentUser.Email
+                        Token = new JwtSecurityTokenHandler().WriteToken(token),
+                        Expiration = token.ValidTo
                     };
                 }
             }
@@ -79,6 +97,21 @@ namespace LibraryProject.Controllers
                 throw new ApplicationException("Unauthorized!");
             }
             return result;
+        }
+
+        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+                issuer: _configuration["JWT:ValidIssuer"],
+                audience: _configuration["JWT:ValidAudience"],
+                expires: DateTime.Now.AddHours(3),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+                );
+
+            return token;
         }
 
         [HttpPost("change_password")]

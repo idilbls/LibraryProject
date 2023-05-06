@@ -1,12 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "OJBBjHvn/Yg+lE06oQHpul6U7pzMF3OfjQim8QXiD1dXZSH3NAesHzcvOlmrt2iRJC7O7odcPrO95h+1uHoOpQ==",
+  "dgSpecHash": "ojAD0Z0y4kNmJhxqJCH1vqvgc4ZlKKxQCFjWSof5yDiGwgaPjwZleOEscONXj9f00AgZ5L+xkRlr8RacrJNbUA==",
   "success": true,
-  "projectFilePath": "C:\\source\\repos\\LibraryProject\\LibraryProject\\LibraryProject\\LibraryProject.csproj",
+  "projectFilePath": "C:\\source\\repos\\LibraryProject\\LibraryProject\\LibraryProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.5\\microsoft.aspnetcore.authentication.jwtbearer.7.0.5.nupkg.sha512",
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.5\\microsoft.aspnetcore.cryptography.internal.7.0.5.nupkg.sha512",
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.5\\microsoft.aspnetcore.cryptography.keyderivation.7.0.5.nupkg.sha512",
     "C:\\Users\\idil.bolukbasi\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\7.0.5\\microsoft.aspnetcore.identity.entityframeworkcore.7.0.5.nupkg.sha512",
