@@ -18,7 +18,8 @@ constructor(props){
     genre: ''
   }  
 }   
-async createBook(){  
+async createBook(e){  
+  e.preventDefault(); 
 await  axios.post('https://localhost:44364/api/Book/add/', 
 {   id: 0,
     name: this.state.name,
@@ -29,19 +30,8 @@ await  axios.post('https://localhost:44364/api/Book/add/',
     language:  this.state.language,
     pageCount:  this.state.pageCount,
     genre:  this.state.genre,})  
-.then(json => {  
-if(json.data.StatusCode===200){  
-  console.log(json.data.Status);  
-  alert("Data Save Successfully");  
-this.props.history.push('/BookList')  
-}  
-else{  
-alert('Data not Saved');  
-debugger;  
-this.props.history.push('/BookList')  
-} 
-this.props.history.push('/BookList')  
-})  
+    .then(res => console.log(res.data));  
+    this.props.history.push('/BookList') 
 } 
 
 handleChange= (e)=> {  
