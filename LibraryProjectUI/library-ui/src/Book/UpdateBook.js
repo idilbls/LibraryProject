@@ -28,8 +28,13 @@ class Edit extends React.Component {
       }  
     }  
   
-  componentDidMount() {  
-      axios.get('https://localhost:44364/api/Book/get_by_id?id='+this.props.match.params.id)  
+  componentDidMount() {
+      axios.get('https://localhost:44364/api/Book/get_by_id?id='+this.props.match.params.id, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      })  
           .then(response => {  
               this.setState({ 
                 name:response.data.name,
@@ -104,7 +109,10 @@ onChangeGenre(e) {
       pageCount: this.state.pageCount,
       genre: this.state.genre
     };  
-    axios.post('https://localhost:44364/api/Book/update/', obj)  
+    axios.post('https://localhost:44364/api/Book/update/', obj,{headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }})  
         .then(res => console.log(res.data));  
         this.props.history.push('/BookList')  
   }  

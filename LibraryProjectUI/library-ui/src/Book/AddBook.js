@@ -29,7 +29,11 @@ await  axios.post('https://localhost:44364/api/Book/add/',
     isbnNumber:  this.state.isbnNumber,
     language:  this.state.language,
     pageCount:  this.state.pageCount,
-    genre:  this.state.genre,})  
+    genre:  this.state.genre,
+    },{headers: {
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+      'Content-Type': 'application/json'
+    }})  
     .then(res => console.log(res.data));  
     this.props.history.push('/BookList') 
 } 

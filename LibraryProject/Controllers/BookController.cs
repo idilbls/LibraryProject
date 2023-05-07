@@ -19,6 +19,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpGet("get_all")]
+        [Authorize]
         public async Task<IList<Book>> GetAllBooks()
         {
             try
@@ -33,6 +34,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpGet("get_by_id")]
+        [Authorize]
 
         public async Task<Book> GetBookById([FromQuery] int id)
         {
@@ -49,6 +51,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize]
         public async Task<Book> AddBook([FromBody] Book book)
         {
             try
@@ -64,6 +67,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost("update")]
+        [Authorize]
         public async Task<Book> UpdateBook([FromBody] Book book)
         {
             try
@@ -78,6 +82,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpDelete("delete")]
+        [Authorize]
         public async Task<bool> DeleteAsync([FromQuery] int id)
         {
             try

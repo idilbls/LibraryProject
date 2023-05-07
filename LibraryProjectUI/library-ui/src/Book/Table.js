@@ -7,7 +7,12 @@ class Table extends Component {
     }  
 
     DeleteBook= () =>{  
-      axios.delete('https://localhost:44364/api/Book/delete?id='+this.props.obj.id)  
+        axios.delete('https://localhost:44364/api/Book/delete?id='+this.props.obj.id, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+              'Content-Type': 'application/json'
+            }
+          })
      .then(json => {  
      if(json.data.Status==='Delete'){  
      alert('Record deleted successfully!!');  

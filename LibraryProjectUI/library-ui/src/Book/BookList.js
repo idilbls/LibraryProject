@@ -5,14 +5,21 @@ import Table from './Table';
 
 export class BookList extends Component{
 
+  
     constructor(props) {  
-        super(props);  
+        super(props);
         this.state = {books: []};  
       } 
       
       componentDidUpdate() {
+
         const url = "https://localhost:44364/api/Book/get_all";
-        const response =  axios.get(url)
+        axios.get(url, {
+          headers: {
+            'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        })
         .then(response=>{
             this.setState({books: response.data});
         })
@@ -23,7 +30,12 @@ export class BookList extends Component{
 
  componentDidMount(){
     const url = "https://localhost:44364/api/Book/get_all";
-    const response =  axios.get(url)
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+        'Content-Type': 'application/json'
+      }
+    })
     .then(response=>{
         this.setState({books: response.data});
     })

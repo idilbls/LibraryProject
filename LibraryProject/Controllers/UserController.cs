@@ -1,5 +1,6 @@
 ﻿using Azure;
 using LibraryProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -50,6 +51,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpGet("get_by_name")]
+        [Authorize]
         public async Task<User> GetUser(string username)
         {
             IdentityUser user = await _userManager.FindByNameAsync(username);
@@ -115,6 +117,7 @@ namespace LibraryProject.Controllers
         }
 
         [HttpPost("change_password")]
+        [Authorize]
         public async Task<bool> ChangePassword(ChangePasswordModel model)
         {
             var currentUser = await _userManager.FindByNameAsync(model.Username);

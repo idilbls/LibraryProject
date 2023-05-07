@@ -30,23 +30,26 @@ class Register extends React.Component{
 
       render() {  
         return (
-            <Container className="App">
+            <Container className="App col-3">
               <Form className="form" onSubmit={this.handleSubmit}>               
                 <FormGroup size="lg" controlId="username">
                   <Label for="username">Username</Label>
                   <Input type="text" name="username" onChange={this.handleChange} value={this.state.username} placeholder="Enter Name" required/>  
                 </FormGroup>
-                <FormGroup size="lg" controlId="password">
+                <FormGroup size="lg" controlId="password" className='mt-2'>
                   <Label for="password">Password</Label>
                   <Input type="password" name="password" onChange={this.handleChange} value={this.state.password} placeholder="Enter Password" required/> 
                 </FormGroup>
-                <FormGroup size="lg" controlId="email">
+                <FormGroup size="lg" controlId="email" className='mt-2'>
                   <Label for="email">Email</Label>
                   <Input type="text" name="email" onChange={this.handleChange} value={this.state.email} placeholder="Enter Email" required/>  
                 </FormGroup>
-                <Button block="true" size="lg" type="submit">
+                <div>
+                <Button size="lg" type="submit" className='mt-3 login-button'>
                   Register
                 </Button>
+                </div>
+
               </Form>
               </Container>
           ); 
