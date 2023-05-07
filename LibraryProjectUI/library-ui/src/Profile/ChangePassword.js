@@ -51,7 +51,7 @@ class ChangePassword extends React.Component{
                 <div>
                 <Button size="lg" type="submit" className='mt-3 login-button'>
                   Change Password
-                </Button>
+                </Button> 
                 </div>
 
               </Form>
